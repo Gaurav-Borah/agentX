@@ -1,0 +1,99 @@
+<div class="quiz-container">
+  <!-- Progress Header -->
+  <div class="quiz-header" *ngIf="!isQuizCompleted">
+    <h1 class="quiz-title">Knowledge Quiz</h1>
+    <div class="progress-section">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="completionProgress"></div>
+      </div>
+      <span class="progress-text">{{ selectedAnswers.size }} of {{ questions.length }} completed</span>
+    </div>
+  </div>
+
+  <!-- Quiz Questions -->
+  <div class="quiz-content" *ngIf="!isQuizCompleted; else resultsTemplate">
+    <div class="question-card" *ngFor="let question of questions; index as i; trackBy: trackByQuestionId">
+      <div class="question-header">
+        <span class="question-number">{{ i + 1 }}</span>
+        <span class="question-category" *ngIf="question.category">{{ question.category }}</span>
+      </div>
+      
+      <h2 class="question-text">{{ question.question }}</h2>
+      
+      <div class="options-container">
+        <div 
+          class="option-item"
+          *ngFor="let option of question.options; trackBy: trackByOption"
+          [class.selected]="isOptionSelected(question.id, option)"
+          (click)="onOptionSelected(question.id, option)">
+          <input 
+            type="radio" 
+            [id]="'q' + question.id + '_' + option"
+            [name]="'question_' + question.id"
+            [value]="option"
+            [checked]="isOptionSelected(question.id, option)"
+            (change)="onOptionSelected(question.id, option)"
+            class="option-input">
+          <label 
+            [for]="'q' + question.id + '_' + option"
+            class="option-label">
+            <span class="option-indicator"></span>
+            <span class="option-text">{{ option }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+      <button 
+        class="submit-button"
+        [class.loading]="isSubmitting"
+        [disabled]="!canSubmitQuiz || isSubmitting"
+        (click)="onSubmitQuiz()">
+        <span *ngIf="!isSubmitting">
+          {{ canSubmitQuiz ? 'Submit Quiz' : 'Answer All Questions' }}
+        </span>
+        <span *ngIf="isSubmitting" class="loading-content">
+          <span class="spinner"></span>
+          Calculating Results...
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <ng-template #resultsTemplate>
+    <div class="results-container">
+      <div class="results-header">
+        <h1 class="results-title">Quiz Completed!</h1>
+        <div class="score-circle">
+          <div class="score-content">
+            <span class="score-number">{{ quizResult?.score }}</span>
+            <span class="score-divider">/</span>
+            <span class="score-total">{{ quizResult?.totalQuestions }}</span>
+          </div>
+          <div class="score-percentage">{{ quizResult?.percentage }}%</div>
+        </div>
+      </div>
+
+      <div class="results-summary">
+        <div class="summary-item correct">
+          <span class="summary-icon">✓</span>
+            <span class="summary-text">{{ quizResult?.correctAnswers?.length || 0 }} Correct</span>
+        </div>
+        <div class="summary-item incorrect">
+          <span class="summary-icon">✗</span>
+            <span class="summary-text">{{ quizResult?.incorrectAnswers?.length || 0 }} Incorrect</span>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="retry-button" (click)="onResetQuiz()">
+          <span class="button-icon">🔄</span>
+          Try Again
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

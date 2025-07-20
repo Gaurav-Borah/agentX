@@ -1,0 +1,130 @@
+// Luxurious dark navy/gold
+$primary-gradient: linear-gradient(120deg, #213053 0%, #3762ff 100%);
+$button-gradient: linear-gradient(90deg, #faa944 0%, #f67d00 100%);
+$card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
+
+.login-background {
+  min-height: 100vh;
+  background: $primary-gradient;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.login-card {
+  background: #fcfaf7;
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 20px;
+  box-shadow: $card-shadow;
+  max-width: 370px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: fade-in 1s ease;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(40px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fae6ba;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 4px 12px rgba(250, 169, 68, 0.18);
+}
+
+.login-header h2 {
+  font-weight: 600;
+  color: #213053;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-size: 1rem;
+  color: #8f8f8f;
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+
+.input-group input {
+  padding: 0.6rem 0.9rem;
+  border: 1.5px solid #ffd186;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1.02rem;
+  background: #fffbe8;
+  transition: all 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #faa944;
+  background: #fcfaf7;
+}
+
+.login-btn {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: $button-gradient;
+  color: #213053;
+  font-weight: 600;
+  padding: 0.7rem 0;
+  font-size: 1.13rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px 0 rgba(250, 169, 68, 0.11);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.login-btn:hover, .login-btn:focus {
+  background: linear-gradient(90deg, #ffd489 25%, #faa944 100%);
+  color: #213053;
+  transform: translateY(-2px) scale(1.025);
+}
+
+.additional-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+}
+
+.additional-links a {
+  font-size: 0.97rem;
+  color: #faa944;
+  text-decoration: none;
+  transition: text-decoration 0.2s, color 0.2s;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
+  color: #f67d00;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+    max-width: 95vw;
+  }
+  .login-header h2 {
+    font-size: 1.15rem;
+  }
+}

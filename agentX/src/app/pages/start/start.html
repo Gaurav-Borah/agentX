@@ -1,0 +1,62 @@
+<div class="start-background">
+  <nav class="start-navbar">
+    <div class="start-logo">
+      <span class="logo-icon">🧠</span>
+      <span class="logo-name"><b>SummaristAI</b></span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" (click)="goToLogin()">Login</button>
+      <button class="nav-btn nav-btn--primary" (click)="goToSignup()" >Sign Up</button>
+    </div>
+  </nav>
+  
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>
+        Unleash <span class="gradient">AI Learning</span> Power
+      </h1>
+      <p class="hero-sub">
+        SummaristAI turns any <b>YouTube video</b>, <b>audio</b>, or <b>presentation</b> into concise notes, smart summaries, and quizzes.<br>
+        Upload, study, and ace your understanding—<b>instantly.</b>
+      </p>
+      <div class="hero-actions">
+        <!-- <button class="cta-btn" (click)="goToSignup()">Get Started</button> -->
+        <button class="cta-btn cta-btn--outline" (click)="goToLogin()">Try Demo</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/256/external-ai-robotics-flaticons-flat-flat-icons-2.png"
+           alt="AI Illustration" />
+    </div>
+  </div>
+  
+  <section class="features-section">
+    <h2 class="features-title">How it works</h2>
+    <div class="features-list">
+      <div class="feature-card">
+        <span class="feature-icon">⬆️</span>
+        <h3>Upload</h3>
+        <p>Drop in any YouTube video, MP3/MP4, or PowerPoint. Fast and secure uploads.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>AI Summarize</h3>
+        <p>Our AI distills complex content into clear, actionable summaries and notes.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📝</span>
+        <h3>Quiz & Learn</h3>
+        <p>Auto-generated quizzes test your mastery. Practice and validate your understanding.</p>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="start-footer">
+    <!-- © {{ currentYear }} SummaristAI. All rights reserved. -->
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </footer>
+</div>

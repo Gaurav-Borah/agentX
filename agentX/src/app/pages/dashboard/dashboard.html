@@ -1,0 +1,67 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="dashboard-title">TopClass Dashboard</div>
+    <button class="profile-btn" (click)="showProfile = !showProfile">
+      Profile
+    </button>
+  </header>
+  
+  <!-- Profile Details Dropdown -->
+  <div *ngIf="showProfile" class="profile-details card">
+    <h3>My Profile</h3>
+    <div>Name: Jane Doe</div>
+    <div>Email: jane.doe@email.com</div>
+    <div>Role: Student</div>
+    <button class="close-profile-btn" (click)="showProfile = false">Close</button>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button [class.active]="selectedTab === 'summariser'"
+            (click)="selectedTab = 'summariser'">
+      Summariser
+    </button>
+    <button [class.active]="selectedTab === 'history'"
+            (click)="selectedTab = 'history'">
+      History
+    </button>
+  </div>
+
+  <!-- Tab Panels --> 
+  <div *ngIf="selectedTab === 'summariser'" class="tab-panel card">
+    <h2>Summariser</h2>
+    <div class="upload-section">
+      <label>Attach File: <input type="file" /></label>
+      <span>Or paste URL:</span>
+      <input placeholder="https://example.com/article" />
+    </div>
+    <button class="generate-btn">Generate Summary</button>
+    <div class="summary-section">
+      <h4>Summary:</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.</p>
+    </div>
+    <button class="generate-test-btn">Generate Test</button>
+  </div>
+
+  <div *ngIf="selectedTab === 'history'" class="tab-panel card">
+    <h2>History</h2>
+    <ul class="history-list">
+      <li>
+        <strong>Title:</strong> Biology Chapter 3 (file.pdf)
+        <br />
+        <span>Summary: Photosynthesis occurs in the chloroplast...</span>
+      </li>
+      <li>
+        <strong>Title:</strong> https://somesite.com/article
+        <br />
+        <span>Summary: This article discusses the main impacts...</span>
+      </li>
+      <li>
+        <strong>Title:</strong> Chemistry Notes (notes.docx)
+        <br />
+        <span>Summary: Chemical reactions involve rearrangement...</span>
+      </li>
+    </ul>
+  </div>
+</div>
