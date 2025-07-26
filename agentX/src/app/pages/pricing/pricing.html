@@ -1,0 +1,225 @@
+<app-top-bar></app-top-bar>
+<div class="pricing-container">
+  <div class="pricing-header">
+    <h1>Pricing Plans</h1>
+    
+    <div class="plan-toggle">
+      <button 
+        class="toggle-btn" 
+        [class.active]="selectedPlan === 'annually'"
+        (click)="selectedPlan = 'annually'">
+        Annually (50% Off)
+      </button>
+      <button 
+        class="toggle-btn" 
+        [class.active]="selectedPlan === 'monthly'"
+        (click)="selectedPlan = 'monthly'">
+        Monthly
+      </button>
+      <button 
+        class="toggle-btn" 
+        [class.active]="selectedPlan === 'education'"
+        (click)="selectedPlan = 'education'">
+        Education
+      </button>
+      <button 
+        class="toggle-btn" 
+        [class.active]="selectedPlan === 'team'"
+        (click)="selectedPlan = 'team'">
+        Team
+      </button>
+    </div>
+
+    <div class="first-day-special">
+      <span class="gift-icon">🎁</span>
+      <span>First-Day Special for New Users</span>
+      <div class="countdown">
+        <span class="time-unit">11</span>:
+        <span class="time-unit">59</span>:
+        <span class="time-unit">24</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-cards">
+    <!-- Pro Plan -->
+    <div class="pricing-card">
+      <div class="discount-badge">30% Off</div>
+      <div class="card-header">
+        <h3>Pro</h3>
+        <div class="price">
+          <span class="currency">$</span>
+          <span class="amount">6</span>
+          <span class="period">.92/mo</span>
+        </div>
+        <div class="yearly-price">Only $83/year</div>
+        <div class="original-price">$120/mo</div>
+      </div>
+      
+      <button class="cta-button">Buy Pro</button>
+      
+      <div class="features">
+        <div class="quota">1000 quotas/month</div>
+        <p class="quota-description">YouTube, Podcast, PDF, Audio, Video, Image, Webpage, Presentation, Word, Book, Text & more</p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI YouTube</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          <p class="feature-description">Batch Summarize 5 videos at once<br>Subscribe to 5 YouTube channels</p>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Presentation Maker (Limited)</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Summarizer</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Chat</span>
+            <div class="chat-icons">
+              <span class="icon">🤖</span>
+              <span class="icon">⚙️</span>
+              <span class="icon">✨</span>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Math & Homework (Limited)</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unlimited Plan -->
+    <div class="pricing-card featured">
+      <div class="most-popular">Most Popular</div>
+      <div class="discount-star">
+        <span class="star-text">50% Off</span>
+      </div>
+      
+      <div class="card-header">
+        <h3>Unlimited</h3>
+        <div class="price">
+          <span class="currency">$</span>
+          <span class="amount">14</span>
+          <span class="period">.5/mo</span>
+        </div>
+        <div class="yearly-price">Only $174/year</div>
+        <div class="original-price">$348/year</div>
+        <div class="daily-cost">Save hours for just $0.47 a day</div>
+      </div>
+      
+      <button class="cta-button featured-button">Buy Unlimited</button>
+      
+      <div class="features">
+        <div class="quota">Unlimited quotas/month</div>
+        <p class="quota-description">YouTube, Podcast, PDF, Audio, Video, Image, Webpage, Presentation, Word, Book, Text & more</p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI YouTube</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          <p class="feature-description">Batch Summarize 20 videos at once<br>Subscribe to 10 YouTube channels</p>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Presentation Maker</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Summarizer</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Chat</span>
+            <div class="chat-icons">
+              <span class="icon">🤖</span>
+              <span class="icon">⚙️</span>
+              <span class="icon">✨</span>
+            </div>
+          </div>
+          <p class="feature-description">Advanced, V3.5 & V4, GPT, Claude</p>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Math & Homework</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro+ Plan -->
+    <div class="pricing-card">
+      <div class="discount-badge">30% Off</div>
+      <div class="card-header">
+        <h3>Pro+</h3>
+        <div class="price">
+          <span class="currency">$</span>
+          <span class="amount">13</span>
+          <span class="period">/mo</span>
+        </div>
+        <div class="yearly-price">Only $156/year</div>
+        <div class="original-price">$156/mo</div>
+      </div>
+      
+      <button class="cta-button">Buy Pro+</button>
+      
+      <div class="features">
+        <div class="quota">4000 quotas/month</div>
+        <p class="quota-description">YouTube, Podcast, PDF, Audio, Video, Image, Webpage, Presentation, Word, Book, Text & more</p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI YouTube</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          <p class="feature-description">Batch Summarize 10 videos at once<br>Subscribe to 5 YouTube channels</p>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Presentation Maker (Limited)</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Summarizer</span>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Chat</span>
+            <div class="chat-icons">
+              <span class="icon">🤖</span>
+              <span class="icon">⚙️</span>
+              <span class="icon">✨</span>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <span class="checkmark">✓</span>
+            <span>AI Math & Homework (Limited)</span>
+            <span class="fire-icon">🔥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

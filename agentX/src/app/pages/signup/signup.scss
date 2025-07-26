@@ -1,7 +1,16 @@
-// Luxurious dark navy/gold
-$primary-gradient: linear-gradient(120deg, #213053 0%, #3762ff 100%);
-$button-gradient: linear-gradient(90deg, #faa944 0%, #f67d00 100%);
-$card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
+// Premium Dark Theme — charcoal/cyan
+$primary-gradient: linear-gradient(120deg, #10141f 0%, #1c2541 100%);
+$button-gradient: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+$card-shadow: 0 8px 32px 0 rgba(0, 198, 255, 0.08);
+
+// Theme-specific variables
+$theme-card-bg: #1c2541;
+$theme-input-bg: #10141f;
+$theme-text-primary: #f5f5f5;
+$theme-text-secondary: #b0c4de;
+$theme-border: #2a3555;
+$theme-accent-bright: #00c6ff;
+$theme-accent-dark: #0072ff;
 
 .login-background {
   min-height: 100vh;
@@ -13,7 +22,7 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
 }
 
 .login-card {
-  background: #fcfaf7;
+  background: $theme-card-bg;
   padding: 2.5rem 2rem 2rem 2rem;
   border-radius: 20px;
   box-shadow: $card-shadow;
@@ -23,11 +32,12 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
   flex-direction: column;
   gap: 1.2rem;
   animation: fade-in 1s ease;
+  border: 1px solid $theme-border;
 }
 
 @keyframes fade-in {
-  0% { opacity: 0; transform: translateY(40px);}
-  100% { opacity: 1; transform: translateY(0);}
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .login-header {
@@ -39,14 +49,14 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #fae6ba;
-  margin-bottom: 0.7rem;
-  box-shadow: 0 4px 12px rgba(250, 169, 68, 0.18);
+  background: $button-gradient;
+  margin: 0 auto 0.7rem auto;
+  box-shadow: 0 4px 12px rgba(0, 198, 255, 0.18);
 }
 
 .login-header h2 {
   font-weight: 600;
-  color: #213053;
+  color: $theme-text-primary;
   margin: 0;
   font-size: 1.5rem;
 }
@@ -60,24 +70,26 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
 
 .input-group label {
   font-size: 1rem;
-  color: #8f8f8f;
+  color: $theme-text-secondary;
   font-weight: 500;
   margin-bottom: 0.1rem;
 }
 
 .input-group input {
   padding: 0.6rem 0.9rem;
-  border: 1.5px solid #ffd186;
+  border: 1.5px solid $theme-border;
   border-radius: 8px;
   outline: none;
   font-size: 1.02rem;
-  background: #fffbe8;
+  background: $theme-input-bg;
+  color: $theme-text-primary;
   transition: all 0.2s;
 }
 
 .input-group input:focus {
-  border-color: #faa944;
-  background: #fcfaf7;
+  border-color: $theme-accent-bright;
+  background: lighten($theme-input-bg, 3%);
+  box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.2);
 }
 
 .login-btn {
@@ -85,19 +97,19 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
   border: none;
   border-radius: 8px;
   background: $button-gradient;
-  color: #213053;
+  color: #fff;
   font-weight: 600;
   padding: 0.7rem 0;
   font-size: 1.13rem;
   cursor: pointer;
   margin-top: 0.5rem;
-  box-shadow: 0 2px 8px 0 rgba(250, 169, 68, 0.11);
-  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(0, 198, 255, 0.15);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .login-btn:hover, .login-btn:focus {
-  background: linear-gradient(90deg, #ffd489 25%, #faa944 100%);
-  color: #213053;
+  background: linear-gradient(90deg, #00b8e6 25%, #0072ff 100%);
+  box-shadow: 0 4px 15px rgba(0, 198, 255, 0.25);
   transform: translateY(-2px) scale(1.025);
 }
 
@@ -109,22 +121,22 @@ $card-shadow: 0 8px 32px 0 rgba(33, 48, 83, 0.12);
 
 .additional-links a {
   font-size: 0.97rem;
-  color: #faa944;
+  color: $theme-accent-bright;
   text-decoration: none;
   transition: text-decoration 0.2s, color 0.2s;
 }
 
 .additional-links a:hover {
   text-decoration: underline;
-  color: #f67d00;
+  color: $theme-accent-dark;
 }
 
 @media (max-width: 480px) {
   .login-card {
-    padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+    padding: 1.5rem 1rem;
     max-width: 95vw;
   }
   .login-header h2 {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
   }
 }

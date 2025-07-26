@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import { TopBar } from '../top-bar/top-bar';
-
-
 
 @Component({
-  selector: 'app-start',
-  imports: [RouterOutlet,TopBar],
-  templateUrl: './start.html',
-  styleUrl: './start.scss'
+  selector: 'app-top-bar',
+  imports: [RouterOutlet],
+  templateUrl: './top-bar.html',
+  styleUrl: './top-bar.scss'
 })
-export class Start {
-  // currentYear: number;
-
+export class TopBar {
 
   constructor(private router: Router) {
     // this.currentYear = new Date().getFullYear();
@@ -26,6 +21,10 @@ export class Start {
 
   goToSignup() {
     this.router.navigate(['/signup']);
+  }
+
+  goToPricing() {
+    this.router.navigate(['/pricing']);
   }
 
 }
