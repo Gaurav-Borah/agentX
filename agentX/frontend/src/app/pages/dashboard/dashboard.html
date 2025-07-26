@@ -1,0 +1,105 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>History</h3>
+      <button class="new-chat-btn" (click)="startNewChat()">
+        <span class="plus-icon">+</span> New Summary
+      </button>
+    </div>
+
+    <div class="history-sidebar">
+      <div class="history-items">
+        <div *ngFor="let item of historyItems; let i = index" class="history-item"
+          [class.active]="selectedHistoryItem === i" (click)="selectHistoryItem(i)">
+          <div class="history-title">{{ item.title }}</div>
+          <div class="history-date">{{ item.date }}</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header Section -->
+    <header class="dashboard-header">
+      <div class="dashboard-title">TopClass Dashboard</div>
+      <button class="profile-btn" (click)="showProfile = !showProfile">
+        Profile
+      </button>
+    </header>
+
+    <!-- Profile Details Dropdown -->
+    <div *ngIf="showProfile && user" class="profile-details card">
+      <h3>My Profile</h3>
+      <div><strong>Name:</strong> {{ user.username }}</div>
+      <div><strong>Email:</strong> {{ user.email }}</div>
+      <button class="close-profile-btn" (click)="showProfile = false">Close</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Summariser Interface -->
+      <div class="tab-panel card">
+        <h2>Summariser</h2>
+
+        <!-- Input Section -->
+        <div class="summariser-inputs">
+          <!-- YouTube Link Input -->
+          <div class="youtube-input-container">
+            <svg class="youtube-icon" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M27.5 3.1s-.3-2.2-1.2-3C25.2-.2 22.9 0 22.9 0h-18S2.2-.2 1.1.9C.3 2 .3 3 .3 3S0 5.6 0 8.2v3.5c0 2.6.3 5.1.3 5.1s.3 2.2 1.2 3c1.1.9 3.3.8 3.3.8s14.6.3 18 .1c1.8-.1 3.3-0.2 4.2-1.2 1-1 1.2-3 1.2-3s.3-2.6.3-5.1V8.2c0-2.6-.3-5.1-.3-5.1zM11.2 13.2V5.2l7 4-7 4z"
+                fill="#FF0000" />
+            </svg>
+            <input type="url" placeholder="Paste YouTube video link here..." [(ngModel)]="pastedUrl" />
+          </div>
+
+          <!-- Separator -->
+          <div class="separator">
+            <span>OR</span>
+          </div>
+
+          <!-- Drag and Drop File Area -->
+          <div class="file-drop-area">
+            <input type="file" id="file-upload" multiple hidden />
+            <label for="file-upload" class="file-drop-label">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 18a4.6 4.4 0 0 1 0-8.8 6 6 0 0 1 12 0 4.6 4.4 0 0 1 0 8.8" stroke="currentColor"
+                  stroke-width="1.5" stroke-miterlimit="10" />
+                <path d="M12 15V7.5M12 7.5L14.5 10M12 7.5L9.5 10" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="drop-title">Drag & drop files here</span>
+              <span class="drop-subtitle">or click to browse</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Generate Summary Button -->
+        <button class="generate-btn" [disabled]="transcriptLoading || !pastedUrl" (click)="generateSummary()">
+          {{ transcriptLoading ? 'Generating...' : 'Generate Summary' }}
+        </button>
+
+        <!-- Loading / Error / Result -->
+        <div *ngIf="transcriptLoading" class="summary-section">
+          <h4>Loading transcript...</h4>
+        </div>
+
+        <div *ngIf="transcriptError" class="summary-section error">
+          <h4>Error:</h4>
+          <pre>{{ transcriptError }}</pre>
+        </div>
+
+        <div *ngIf="transcript && !transcriptLoading" class="summary-section">
+          <h4>Summary:</h4>
+          <markdown [data]="prettyTranscript"></markdown>
+        </div>
+
+        <!-- Test Button -->
+        <button class="generate-test-btn" *ngIf="transcript && !transcriptLoading">Generate Test</button>
+      </div>
+    </div>
+  </main>
+</div>
