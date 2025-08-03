@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TopBar } from '../top-bar/top-bar';
+import { Router } from '@angular/router';
 
 
 
@@ -12,6 +13,15 @@ import { TopBar } from '../top-bar/top-bar';
 })
 export class Pricing {
   selectedPlan: string = 'annually';
+
+
+   constructor(private router: Router) {
+  } 
+
+
+  goToPricing() {
+    this.router.navigate(['/payments']);
+  }
 
 
 }

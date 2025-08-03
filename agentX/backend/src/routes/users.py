@@ -1,8 +1,18 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 import models, schemas, auth, database, utils
 from youtube_transcript_api import YouTubeTranscriptApi
 import httpx
+import stripe
+from dotenv import load_dotenv
+
+load_dotenv()  # Loads .env
+
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+
+stripe.api_key = STRIPE_SECRET_KEY
 
 router = APIRouter()
 
@@ -118,4 +128,56 @@ async def get_transcript(data: schemas.URLRequest):
 #         print()
 #         return response
 #     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # raise HTTPException(status_code=500, detail=str(e))
+    
+# @router.post("/create-checkout-session")
+# async def create_checkout_session(data: schemas.SessionRequest):
+#     try:
+#         session = stripe.checkout.Session.create(
+#             payment_method_types=["card"],
+#             line_items=[{
+#                 "price_data": {
+#                     "currency": "usd",
+#                     "product_data": {"name": "Sample Payment"},
+#                     "unit_amount": data.amount * 100,  # Stripe works in cents
+#                 },
+#                 "quantity": 1,
+#             }],
+#             mode="payment",
+#             success_url="http://localhost:4200/success",  # Change to your frontend URL
+#             cancel_url="http://localhost:4200/cancel",
+#         )
+#         return {"id": session.id}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+    
+
+@router.get("/stripe-publishable-key")
+def get_publishable_key():
+    return {"publishableKey": STRIPE_PUBLISHABLE_KEY}
+
+@router.post("/create-checkout-session")
+async def create_checkout_session(request: Request):
+    data = await request.json()
+    amount = data.get('amount', 1000)  # Default: $10.00
+
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {"name": "Sample Product"},
+                        "unit_amount": amount,  # Amount is in cents
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url="http://localhost:4200/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url="http://localhost:4200/cancel",
+        )
+        return {"id": session.id, "url": session.url}
+    except Exception as e:
+        return {"error": str(e)}

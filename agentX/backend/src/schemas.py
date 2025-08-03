@@ -22,3 +22,6 @@ class Message(BaseModel):
 
 class URLRequest(BaseModel):
     url: str
+
+class SessionRequest(BaseModel):
+    amount:  float

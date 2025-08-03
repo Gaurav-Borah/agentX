@@ -5,7 +5,8 @@ import { Signup } from './pages/signup/signup';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { QuizPageComponent } from './pages/quiz-page/quiz-page';
 import { Pricing } from './pages/pricing/pricing';
-
+import { Payments } from './pages/payments/payments';
+import { DetailsPage } from './pages/details-page/details-page';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'start', pathMatch: 'full' },
@@ -15,4 +16,6 @@ export const routes: Routes = [
     { path: 'dashboard', component: Dashboard },
     { path: 'quizpath', component: QuizPageComponent },
     { path: 'pricing', component: Pricing },
+    { path: 'payments', component: Payments },
+    { path: 'details', component: DetailsPage },
 ];
