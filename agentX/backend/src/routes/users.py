@@ -16,7 +16,8 @@ stripe.api_key = STRIPE_SECRET_KEY
 
 router = APIRouter()
 
-DIFY_API_KEY = "app-RJo6Hfq8ITP29pYqnpyhACim"
+load_dotenv()
+DIFY_API_KEY = os.getenv("DIFY_API_KEY")
 DIFY_WORKFLOW_URL = "https://api.dify.ai/v1/workflows/run"
 
 def get_db():
@@ -87,7 +88,7 @@ async def get_transcript(data: schemas.URLRequest):
     try:
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         full_text = " ".join([entry["text"] for entry in transcript])
-
+        print(full_text)
         # Send the transcript to Dify workflow
         async with httpx.AsyncClient(timeout=120.0) as client:
             payload = {
