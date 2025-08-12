@@ -8,7 +8,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import re
 import uvicorn
 import schemas, database, models
-from routes import users
+from routes import users, dashboard
 import psycopg2
 
 
@@ -36,6 +36,7 @@ app.add_middleware(
 )
 
 app.include_router(users.router, prefix="/auth")
+app.include_router(dashboard.router, prefix="/auth")
 
 #         raise HTTPException(status_code=500, detail=str(e))
 

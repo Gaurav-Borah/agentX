@@ -9,11 +9,38 @@
     </div>
 
     <div class="history-sidebar">
-      <div class="history-items">
+      <!-- History Loading State -->
+      <div *ngIf="historyLoading" class="history-loading">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">Loading history...</span>
+      </div>
+
+      <!-- History Error State -->
+      <div *ngIf="historyError && !historyLoading" class="history-error">
+        <div class="error-message">{{ historyError }}</div>
+        <button class="retry-btn" (click)="loadUserHistory()">Retry</button>
+      </div>
+
+      <!-- Empty History State -->
+      <div *ngIf="!historyLoading && !historyError && historyItems.length === 0" class="history-empty">
+        <div class="empty-message">No conversations yet. Start by summarizing a URL!</div>
+      </div>
+
+      <!-- History Items -->
+      <div *ngIf="!historyLoading && historyItems.length > 0" class="history-items">
         <div *ngFor="let item of historyItems; let i = index" class="history-item"
           [class.active]="selectedHistoryItem === i" (click)="selectHistoryItem(i)">
-          <div class="history-title">{{ item.title }}</div>
-          <div class="history-date">{{ item.date }}</div>
+
+          <!-- URL Display -->
+          <div class="history-url" [title]="item.url">{{ item.url }}</div>
+
+          <!-- Transcript Preview -->
+          <div class="history-preview">
+            {{ item.transcript.length > 80 ? (item.transcript.substring(0, 80) + '...') : item.transcript }}
+          </div>
+
+          <!-- Date -->
+          <div class="history-date">{{ getRelativeTime(item.date) }}</div>
         </div>
       </div>
     </div>
@@ -85,6 +112,7 @@
         <!-- Loading / Error / Result -->
         <div *ngIf="transcriptLoading" class="summary-section">
           <h4>Loading transcript...</h4>
+          <div class="loading-spinner"></div>
         </div>
 
         <div *ngIf="transcriptError" class="summary-section error">
@@ -94,7 +122,7 @@
 
         <div *ngIf="transcript && !transcriptLoading" class="summary-section">
           <h4>Summary:</h4>
-          <markdown [data]="prettyTranscript"></markdown>
+          <markdown [data]="transcript"></markdown>
         </div>
 
         <!-- Test Button -->

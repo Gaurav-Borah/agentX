@@ -37,8 +37,16 @@ export class AuthService {
         return this.http.post(
             `${API_URL}/get_transcript`,
             { url },
-            { withCredentials: true }
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            }
         );
+    }
+    getUserConversations(): Observable<any> {
+        return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
     }
 
 }
