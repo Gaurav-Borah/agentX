@@ -1,0 +1,11 @@
+<main class="form-checkout w-100 m-auto">
+  <h2>Stripe Payment</h2>
+  <div>
+    <label>Amount (in cents): </label>
+    <input type="number" [(ngModel)]="amount" min="1" />
+  </div>
+  <button (click)="checkout()" [disabled]="loading">
+    Pay Now
+    <span *ngIf="loading">...</span>
+  </button>
+</main>

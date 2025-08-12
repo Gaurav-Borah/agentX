@@ -1,0 +1,157 @@
+.details-page {
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+  background: #191c22;
+  color: #e6e6e6;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 30px;
+  gap: 0; // Updated: no gap because resizers take space
+
+  .left-panel {
+    flex: 1.1 1 0%;
+    display: flex;
+    flex-direction: column;
+    gap: 0; // Updated
+
+    .youtube-container {
+      background: #232634;
+      border-radius: 10px 10px 0 0;
+      padding: 18px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.09);
+      min-height: 100px;
+    }
+
+    /* Horizontal Resizer */
+    .horizontal-resizer {
+      height: 7px;
+      background: linear-gradient(90deg, #35374b, #0f0e0e 60%, #35374b 100%);
+      cursor: row-resize;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      transition: background 0.2s;
+
+      &:hover,
+      &.dragging {
+        background: #0f0e0e;
+      }
+    }
+
+    .transcript-container {
+      background: #232634;
+      border-radius: 0 0 10px 10px;
+      padding: 15px 12px 12px 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 40px; // Prevent collapse when resizing
+      height: auto;
+
+      .transcript-scroll {
+        flex: 1;
+        overflow-y: auto;
+        margin-top: 8px;
+        font-size: 14px;
+        color: #d0d6e0;
+
+        // Custom Scrollbar
+        &::-webkit-scrollbar {
+          width: 8px;
+          background: #232634;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #34374a;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+
+  /* Vertical Resizer */
+  .vertical-resizer {
+    width: 8px;
+    min-width: 8px;
+    cursor: col-resize;
+    background: linear-gradient(180deg, #35374b, #0a0a09 60%, #35374b 100%);
+    border-radius: 7px;
+    margin: 0 4px;
+    z-index: 15;
+    transition: background 0.2s;
+
+    &:hover,
+    &.dragging {
+      background: #101010;
+    }
+
+    /* Make resizer fill height */
+    height: 100%;
+    align-self: stretch;
+  }
+
+  .right-panel {
+    flex: 0.9 1 0%;
+    background: #232634;
+    border-radius: 10px;
+    padding: 20px 20px 20px 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: calc(90vh - 60px);
+
+    .summary-scroll {
+      overflow-y: auto;
+      margin-top: 10px;
+      flex: 1;
+      color: #e6e6e6;
+
+      // Custom Scrollbar
+      &::-webkit-scrollbar {
+        width: 8px;
+        background: #232634;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #34374a;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  // Headings
+  h3 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    color: #d5a048;
+  }
+
+  h4 {
+    margin: 18px 0 5px;
+    font-size: 1rem;
+    color: #fac95b;
+  }
+}
+
+// Responsive styles
+@media (max-width: 960px) {
+  .details-page {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+
+    .left-panel,
+    .right-panel {
+      max-width: 100%;
+      flex: none !important; /* Override flex properties for scrolling */
+    }
+
+    .right-panel {
+      height: 300px;
+      max-height: 300px;
+    }
+
+    /* Hide resizers on small screens to simplify touch usage */
+    .vertical-resizer,
+    .horizontal-resizer {
+      display: none;
+    }
+  }
+}

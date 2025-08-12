@@ -48,5 +48,24 @@ export class AuthService {
     getUserConversations(): Observable<any> {
         return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
     }
+    getUserConversations(): Observable<any> {
+        return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
+    }
+    postPayments(amount: any): Observable<any> {
+        return this.http.post(
+            `${API_URL}/create-checkout-session`,
+            amount,
+
+        );
+    }
+
+    getstripepublishablekey(apiKey: string): Observable<any> {
+        return this.http.post(
+            `${API_URL}/stripe-publishable-key`,
+            apiKey,
+
+        );
+    }
+
 
 }
