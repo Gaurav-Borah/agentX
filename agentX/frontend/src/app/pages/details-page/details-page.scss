@@ -1,4 +1,8 @@
+$button-gradient: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+$card-shadow: 0 8px 32px 0 rgba(0, 198, 255, 0.08);
+
 .details-page {
+  position: relative; // Add this to ensure absolute children are positioned properly
   display: flex;
   flex-direction: row;
   height: 90vh;
@@ -6,20 +10,20 @@
   color: #e6e6e6;
   font-family: 'Segoe UI', Arial, sans-serif;
   padding: 30px;
-  gap: 0; // Updated: no gap because resizers take space
+  gap: 0; // No gap because resizers take space
 
   .left-panel {
     flex: 1.1 1 0%;
     display: flex;
     flex-direction: column;
-    gap: 0; // Updated
+    gap: 0;
 
     .youtube-container {
       background: #232634;
       border-radius: 10px 10px 0 0;
       padding: 18px;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.09);
-      min-height: 100px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.09);
+      min-height: 80px;
     }
 
     /* Horizontal Resizer */
@@ -44,7 +48,8 @@
       padding: 15px 12px 12px 18px;
       display: flex;
       flex-direction: column;
-      min-height: 40px; // Prevent collapse when resizing
+      min-height: 60px; // Prevent collapse when resizing
+      flex-grow: 1;
       height: auto;
 
       .transcript-scroll {
@@ -59,6 +64,7 @@
           width: 8px;
           background: #232634;
         }
+
         &::-webkit-scrollbar-thumb {
           background: #34374a;
           border-radius: 6px;
@@ -109,6 +115,7 @@
         width: 8px;
         background: #232634;
       }
+
       &::-webkit-scrollbar-thumb {
         background: #34374a;
         border-radius: 6px;
@@ -128,6 +135,31 @@
     font-size: 1rem;
     color: #fac95b;
   }
+
+  .back-btn-top-left {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 100;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fac95b; // Optional: match your theme colors
+
+    svg {
+      stroke: currentColor;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: #ffd966;
+    }
+  }
 }
 
 // Responsive styles
@@ -140,7 +172,8 @@
     .left-panel,
     .right-panel {
       max-width: 100%;
-      flex: none !important; /* Override flex properties for scrolling */
+      flex: none !important;
+      /* Override flex properties for scrolling */
     }
 
     .right-panel {
@@ -153,5 +186,42 @@
     .horizontal-resizer {
       display: none;
     }
+
+    /* Optional: reposition back button for small screens */
+    .back-btn-top-left {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin-bottom: 10px;
+    }
   }
+}
+
+/* Common button style */
+.generate-btn,
+.generate-test-btn {
+  padding: 12px 40px;
+  margin: 15px 0 0 0;
+  font-weight: 600;
+  background: $button-gradient;
+  border: none;
+  border-radius: 24px;
+  color: #fff;
+  box-shadow: $card-shadow;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 198, 255, 0.2);
+    background: linear-gradient(95deg, #00b8e6 25%, #0072ff 100%);
+  }
+}
+
+/* Disabled state */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

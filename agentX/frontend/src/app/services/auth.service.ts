@@ -45,9 +45,20 @@ export class AuthService {
             }
         );
     }
-    getUserConversations(): Observable<any> {
-        return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
+
+    getDetailedNotes(url: string): Observable<any> {
+        return this.http.post(
+            `${API_URL}/generate_detailed_notes`,
+            { url },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            }
+        );
     }
+
     getUserConversations(): Observable<any> {
         return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
     }

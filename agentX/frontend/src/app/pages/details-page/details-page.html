@@ -1,128 +1,116 @@
 <div class="details-page">
   <!-- LEFT SIDE -->
-  <div
-    class="left-panel"
-    [style.flex]="leftPanelFlex"
-    (mousemove)="onMouseMove($event)"
-    (mouseup)="onMouseUp()"
-  >
+  <button class="back-btn-top-left" (click)="goBackToDashboard()" title="Back to Dashboard"
+    style="position: absolute; top: 10px; left: 10px; z-index: 100;">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+    Back
+  </button>
+
+  <div class="left-panel" [style.flex]="leftPanelFlex" style="display: flex; flex-direction: column;">
     <!-- YouTube Embed -->
-     <div class="youtube-container">
-      <!-- Replace src with your YouTube link -->
-      <iframe
-        width="100%"
-        height="480"
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
+    <div class="youtube-container" [style.height.px]="youtubeHeight">
+      <iframe *ngIf="safeEmbedUrl" width="100%" [style.height.px]="youtubeHeight" [src]="safeEmbedUrl" frameborder="0"
+        allowfullscreen [style.pointer-events]="resizing ? 'none' : 'auto'">
+      </iframe>
+
+      <div *ngIf="!safeEmbedUrl" class="no-video-placeholder">
+        <div class="placeholder-content">
+          <svg class="video-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7z" fill="currentColor" />
+          </svg>
+          <p>No video available</p>
+          <p class="url-display" *ngIf="url">URL: {{ url }}</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Horizontal Resizer (between YouTube and transcript) -->
-    <!-- <div
-      class="horizontal-resizer"
-      (mousedown)="onMouseDown('horizontal', $event)"
-      title="Drag to resize video/transcript"
-    ></div> -->
+    <!-- Horizontal Resizer between YouTube and Transcript -->
+    <div class="horizontal-resizer" (mousedown)="onMouseDown('horizontal', $event)" title="Drag to resize video height"
+      [style.pointer-events]="'auto'"></div>
 
     <!-- Transcript Scroll Area -->
-    <div class="transcript-container" [style.flex]="'1 1 0%'"  height="250">
-      <h3>Transcript</h3>
+    <div class="transcript-container" [style.flex]="'1 1 0%'">
+      <div class="transcript-header">
+        <h3>Transcript</h3>
+      </div>
+
       <div class="transcript-scroll">
-        <p><b>[00:00]</b> Welcome to this video on building a modern Angular details page. Today, we’ll discuss layout design, styling, and best UI practices.</p>
-        <p><b>[00:12]</b> Speaker: First off, let’s talk about why user experience matters. Users expect an intuitive and visually appealing interface.</p>
-        <p><b>[00:25]</b> Host: That’s correct. And a clean layout helps focus user attention where it matters most.</p>
-        <p><b>[00:33]</b> Let’s get started with the structure. On the left, there’s a YouTube play area; below it, the transcript appears in a scrollable container.</p>
-        <p><b>[00:47]</b> <i>[music playing]</i></p>
-        <p><b>[01:02]</b> User: How do I add more content to my transcript section?</p>
-        <p><b>[01:05]</b> Assistant: That’s simple—just continue to append more paragraphs or add real transcript data as needed.</p>
-        <p><b>[01:13]</b> We can also support clickable timestamps, highlight speakers, and visually differentiate between speakers.</p>
-        <p><b>[01:21]</b> “So, as you can see, the transcript area provides an accessible way to review spoken content.”</p>
-        <p><b>[01:34]</b> — In this example, random text is used to simulate a full, lengthy transcript. Scroll further for more content.</p>
-        <p>Mauris accumsan tincidunt velit vel viverra. Morbi pulvinar, massa eu porta mattis, sapien tortor sollicitudin massa, nec dictum est dui eu augue.</p>
-        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst.</p>
-        <p>Nam ac consectetur risus. Praesent iaculis, augue vel venenatis gravida, urna velit varius enim, eu posuere nisi metus in nibh.</p>
-        <p>Sed dignissim, velit sed dictum dapibus, risus lacus tincidunt velit, eu cursus massa ex vel ex. Pellentesque at pulvinar enim, at dictum est.</p>
-        <p>Aliquam erat volutpat. Cras porttitor, nisi eu adipiscing feugiat, urna sem hendrerit dui, sed sodales sem magna id nulla.</p>
-        <p>Sed suscipit tristique magna, id egestas ligula dictum sed. Proin faucibus commodo ipsum, id tempus sapien ornare sed.</p>
-        <p>Quisque tincidunt sapien vel dui posuere, nec ullamcorper nisi consequat. Donec pretium, enim non sodales viverra, libero neque tincidunt justo, vitae malesuada erat urna a risus.</p>
-        <p>Fusce sed blandit mauris, vel bibendum est. Etiam rhoncus faucibus mauris a placerat. Fusce et eros eros.</p>
-        <p><b>[02:58]</b> Host: Don’t forget, separating transcript and summary areas with independent scrolling enhances readability.</p>
-        <p>Proin in turpis et ligula pretium tristique. Morbi molestie lobortis enim eget feugiat. Quisque eget massa augue. Pellentesque habitant morbi tristique senectus et netus.</p>
-        <p>Aenean eu accumsan odio. Donec placerat nec tortor vel efficitur. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-        <p>Duis vel tortor quis metus iaculis porta eu nec lacus. Sed rutrum sodales risus, a commodo lorem tempus in.</p>
-        <p>Nam vel augue a velit cursus finibus. Vestibulum euismod dui nec justo varius, in cursus urna tempus. Pellentesque cursus ante ac nisi pretium, quis tincidunt elit pharetra.</p>
-        <p>Donec imperdiet, metus in pulvinar feugiat, sapien mi viverra massa, nec tincidunt erat elit et neque.</p>
-        <p>Etiam non tortor bibendum, convallis ipsum lacinia, augue purus mattis arcu. Mauris porttitor, mi nec viverra rutrum, nisi dui pellentesque justo, nec porttitor sapien libero nec augue.</p>
-        <p>Vivamus suscipit magna ac orci euismod tempus. Sed nec aliquet diam, sit amet convallis mauris. Curabitur cursus lectus eros.</p>
-        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi.</p>
-        <p>Aliquam erat volutpat. Sed vitae sapien at lorem viverra vulputate eu sed dui. Cras faucibus gravida massa quis placerat.</p>
-        <p><b>[04:35]</b> Host: Thank you for watching! Practice with real transcripts for the best results.</p>
+        <div *ngIf="transcript && transcript.trim()" class="transcript-content">
+          <markdown [data]="transcript"></markdown>
+        </div>
+
+        <div *ngIf="!transcript || !transcript.trim()" class="no-transcript-placeholder">
+          <p>No transcript available</p>
+          <p class="help-text">Generate a summary from the dashboard to see transcript content here.</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Vertical Resizer (between left and right panels) -->
-  <div
-    class="vertical-resizer"
-    (mousedown)="onMouseDown('vertical', $event)"
-    title="Drag to resize panels"
-  ></div>
+  <!-- Vertical Resizer -->
+  <div class="vertical-resizer" (mousedown)="onMouseDown('vertical', $event)" title="Drag to resize panels"
+    [style.pointer-events]="'auto'"></div>
 
   <!-- RIGHT SIDE -->
-  <div
-    class="right-panel"
-    [style.flex]="rightPanelFlex"
-    (mousemove)="onMouseMove($event)"
-    (mouseup)="onMouseUp()"
-  >
-    <h3>Summary</h3>
+  <div class="right-panel" [style.flex]="rightPanelFlex">
+    <!-- Dynamic heading that changes based on content -->
+    <h3>{{ showDetailedNotes ? 'Detailed Notes' : 'Summary' }}</h3>
+
     <div class="summary-scroll">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat, purus sed hendrerit cursus, tortor risus sollicitudin justo, eget pulvinar magna. Donec convallis, enim at pulvinar cursus, metus erat cursus velit, a accumsan magna eros at lorem. Cras tincidunt, risus nec ultrices consequat, mi felis lacinia risus, a iaculis odio leo et nulla.</p>
+      <!-- Show summary if available and detailedNotes not loaded -->
+      <div *ngIf="summary && summary.trim() && !showDetailedNotes" class="summary-content">
+        <div class="summary-section">
+          <h4>Generated Notes</h4>
+          <markdown [data]="summary"></markdown>
+        </div>
 
-      <h4>Highlights</h4>
-      <ul>
-        <li>Random highlight 1: The modular design enables scalable development.</li>
-        <li>Random highlight 2: Independent scrolling preserves content accessibility.</li>
-        <li>Random highlight 3: Effective use of color helps distinguish sections.</li>
-        <li>Random highlight 4: Responsive layout adapts well on various devices.</li>
-        <li>Random highlight 5: Semantic HTML improves SEO and accessibility.</li>
-        <li>Random highlight 6: Performance optimized with minimal reflows.</li>
-        <li>Random highlight 7: Simple but extensible component structure.</li>
-      </ul>
+        <div class="summary-section">
+          <h4>Actions</h4>
+          <button class="generate-test-btn" type="button">Generate Test</button>
+          <button class="generate-test-btn" type="button" (click)="exportNotes()" [disabled]="exporting">
+            {{ exporting ? 'Generating...' : 'Generate Detailed Notes' }}
+          </button>
+        </div>
+      </div>
 
-      <h4>Key Insights</h4>
-      <ol>
-        <li>Random insight A: Separating content areas visually aids user focus and comprehension.</li>
-        <li>Random insight B: Scrollbars should be subtle yet functional to maintain UX.</li>
-        <li>Random insight C: Using SCSS nesting keeps styles organized and maintainable.</li>
-        <li>Random insight D: Flexible flexbox layouts enable predictable design adaptation.</li>
-        <li>Random insight E: Embedding YouTube videos via iframe is simple but requires responsive sizing.</li>
-        <li>Random insight F: Padding and gap usage details styling polish and hierarchy.</li>
-      </ol>
+      <!-- Show detailed notes after export -->
+      <div *ngIf="detailedNotes && detailedNotes.trim() && showDetailedNotes" class="summary-content">
+        <div class="summary-section">
+          <h4>Detailed Notes</h4>
+          <markdown [data]="detailedNotes"></markdown>
+        </div>
 
-      <p>Further, the application of consistent color schemes with #232634 for backgrounds and accent gold tones for headers creates a polished, professional feel. Typography choices, such as using 'Segoe UI' for readability, enhance the user's reading experience over extended sessions.</p>
+        <!-- Option to go back to summary -->
+        <div class="summary-section">
+          <button class="generate-test-btn" type="button" (click)="showDetailedNotes = false">
+            Back to Summary
+          </button>
+        </div>
+      </div>
 
-      <p>Effective UI design also revolves around ample whitespace for breathing room and visual hierarchy to guide the eye naturally through page sections. This layout balances video, transcript, and summary where each part holds appropriate focus without overcrowding.</p>
+      <!-- If no summary or detailed notes -->
+      <div *ngIf="(!summary || !summary.trim()) && (!detailedNotes || !detailedNotes.trim())"
+        class="no-summary-placeholder">
+        <p>No notes available</p>
+        <p class="help-text">Generate detailed notes from the dashboard to see content here.</p>
 
-      <p>By extending these foundational principles, the design can be evolved to incorporate interactive controls, real-time fetching of transcript data, and customizable summary panels, all while preserving the smooth scroll experience demonstrated here.</p>
+        <div class="placeholder-content">
+          <h4>How to use this page:</h4>
+          <ol>
+            <li>Go back to the dashboard</li>
+            <li>Paste a YouTube URL</li>
+            <li>Click "Generate Summary"</li>
+            <li>You'll be redirected here with the results</li>
+          </ol>
 
-      <p>Lastly, accessibility best practices such as keyboard navigation support and ARIA labels would ensure usability for all users, making this template a strong base for production-ready Angular components.</p>
-
-      <p>[ More detailed and elaborated summary content can be placed here to further increase length and provide a realistic test for scrolling behavior. ]</p>
-      <p>Morbi eu metus vel nulla viverra luctus. Pellentesque eleifend erat nec velit dignissim, at tempor odio bibendum. Praesent id justo in ipsum faucibus cursus et ut nulla. Nullam ut sapien vel ipsum scelerisque convallis non at magna.</p>
-      <p>Suspendisse potenti. Donec eu risus ultricies, blandit arcu id, faucibus magna. Integer laoreet porttitor ipsum, sed lacinia erat volutpat sit amet. Cras sollicitudin nulla nibh, eu porta ante volutpat vel.</p>
-      <p>Aliquam erat volutpat. Quisque convallis, ipsum a interdum faucibus, metus nulla efficitur tellus, a laoreet elit diam ac orci. Donec vitae cursus lorem, id varius nibh.</p>
-      <p>Nunc at bibendum elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse potenti. Curabitur dignissim elit ut eros luctus, a gravida diam placerat.</p>
-      <p>Etiam rhoncus ligula vel arcu consequat, a bibendum magna pharetra. Nulla eu aliquam elit. Sed elit sapien, interdum sed pellentesque eu, eleifend vel sapien.</p>
-
-      <p>Cras ac sapien facilisis, dignissim erat eu, interdum nibh. Fusce sagittis lorem in enim vehicula, at tempor urna viverra. Mauris condimentum urna sed consectetur vehicula. Vivamus vel eleifend ex.</p>
-
-      <p>Duis non ipsum non purus pretium pretium a at magna. Phasellus nec congue orci. Vestibulum consectetur convallis nulla, non rutrum metus condimentum at. Fusce ac mi in nulla rutrum pretium.</p>
-
-      <p>Praesent non massa at elit ultrices accumsan. Proin a volutpat eros, non bibendum erat. Mauris at magna eu mi dictum lacinia sed nec augue. Vestibulum hendrerit mattis erat, in ultrices lorem faucibus a.</p>
-
-      <p>Thank you for reviewing this summary section. Continue to populate it with relevant content as your project evolves.</p>
+          <button class="back-btn-large" (click)="goBackToDashboard()">
+            Go to Dashboard
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

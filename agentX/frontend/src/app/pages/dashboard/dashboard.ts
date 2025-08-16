@@ -28,6 +28,9 @@ export class Dashboard {
 
   // NEW: transcript related state
   transcript: any = null;
+  summary: string | null = null;
+  // NEW: error handling
+  summaryError: string | null = null;
   transcriptError: string | null = null;
   transcriptLoading = false;
 
@@ -83,6 +86,7 @@ export class Dashboard {
     this.transcriptLoading = true;
     this.transcriptError = null;
     this.transcript = null;
+    this.summary = null;
 
     this.auth.getTranscript(this.pastedUrl)
       .pipe(finalize(() => {
@@ -92,8 +96,16 @@ export class Dashboard {
       .subscribe({
         next: (res) => {
           console.log('get_transcript success:', res);
-          this.transcript = res.text;
+          this.transcript = res.transcript;
+          this.summary = res.summary;
           this.loadUserHistory();
+          this.router.navigate(['/details'], {
+            state: {
+              transcript: this.transcript,
+              summary: this.summary,
+              url: this.pastedUrl
+            }
+          });
         },
         error: (err) => {
           console.error('get_transcript error:', err);
@@ -113,6 +125,12 @@ export class Dashboard {
       this.transcript = selectedItem.transcript;
       this.pastedUrl = selectedItem.url;
     }
+    this.router.navigate(['/details'], {
+      state: {
+        transcript: selectedItem.transcript,
+        url: selectedItem.url
+      }
+    });
   }
 
   startNewChat(): void {
