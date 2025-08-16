@@ -69,7 +69,9 @@
 
         <div class="summary-section">
           <h4>Actions</h4>
-          <button class="generate-test-btn" type="button">Generate Test</button>
+          <button class="generate-test-btn" type="button" (click)="generateTest()" [disabled]="generatingQuiz">
+            {{ generatingQuiz ? 'Generating Test...' : 'Generate Test' }}
+          </button>
           <button class="generate-test-btn" type="button" (click)="exportNotes()" [disabled]="exporting">
             {{ exporting ? 'Generating...' : 'Generate Detailed Notes' }}
           </button>

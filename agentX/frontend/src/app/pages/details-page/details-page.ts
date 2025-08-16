@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MarkdownComponent } from 'ngx-markdown';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, Question } from '../../services/auth.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -29,6 +29,7 @@ export class DetailsPage implements OnInit {
   minTranscriptHeight = 140;
 
   exporting = false;
+  generatingQuiz = false;
   showDetailedNotes = false; // Track if detailed notes are being shown
 
   // Tracking resizer state
@@ -176,6 +177,48 @@ export class DetailsPage implements OnInit {
         console.error('Error exporting notes:', err);
         alert('Failed to export notes.');
       },
+    });
+  }
+
+  generateTest(): void {
+    if (!this.transcript) {
+      alert('Transcript is missing. Cannot generate quiz.');
+      return;
+    }
+
+    this.generatingQuiz = true;
+
+    this.auth.generateTest(this.transcript).subscribe({
+      next: (res) => {
+        this.generatingQuiz = false;
+        console.log('Generated quiz raw response:', res);
+
+        let qBank: Question[] = [];
+
+        if (res && Array.isArray(res)) {
+          qBank = res;
+        } else if (res && typeof res === 'object' && Array.isArray(res.questions)) {
+          qBank = res.questions;
+        } else {
+          console.warn('Unexpected quiz response format:', res);
+          alert('Failed to generate quiz: unexpected response format.');
+          return;
+        }
+        console.log('Final quiz questions:', qBank);
+        // Navigate to quiz page with the generated quiz
+        this.router.navigate(['/quiz'], {
+          state: {
+            qBank: qBank,
+            transcript: this.transcript,
+            url: this.url
+          }
+        });
+      },
+      error: (err) => {
+        this.generatingQuiz = false;
+        console.error('Error generating quiz:', err);
+        alert('Failed to generate quiz.');
+      }
     });
   }
 }

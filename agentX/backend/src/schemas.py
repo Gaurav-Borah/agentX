@@ -25,3 +25,6 @@ class URLRequest(BaseModel):
 
 class SessionRequest(BaseModel):
     amount:  float
+
+class transcript(BaseModel):
+    transcript: str

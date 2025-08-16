@@ -1,18 +1,20 @@
 <div class="quiz-container">
   <h1>🚀 Quiz Challenge</h1>
 
-  <div *ngFor="let q of qBank" class="question-card" 
-       [class.correct]="q.correct && quizSubmitted"
-       [class.incorrect]="quizSubmitted && !q.correct && q.selected">
-       
+  <!-- Show quiz source info -->
+  <div class="quiz-info" *ngIf="isGeneratedQuiz">
+    <p class="info-text">✨ This quiz was generated from your video transcript!</p>
+  </div>
+
+  <div *ngFor="let q of qBank" class="question-card" [class.correct]="q.correct && quizSubmitted"
+    [class.incorrect]="quizSubmitted && !q.correct && q.selected">
+
     <p class="question">{{q.id}}. {{q.question}}</p>
 
     <div class="options">
       <label *ngFor="let option of q.options" class="option">
-        <input type="radio" [name]="'q' + q.id" [value]="option"
-               [(ngModel)]="q.selected"
-               [disabled]="quizSubmitted"
-               (change)="selectAnswer(q.id, option)">
+        <input type="radio" [name]="'q' + q.id" [value]="option" [(ngModel)]="q.selected" [disabled]="quizSubmitted"
+          (change)="selectAnswer(q.id, option)">
         <span>{{ option }}</span>
       </label>
     </div>
@@ -26,9 +28,27 @@
   <div class="buttons">
     <button (click)="submitQuiz()" [disabled]="quizSubmitted">Submit Quiz</button>
     <button class="reset" (click)="resetQuiz()" *ngIf="quizSubmitted">Retry</button>
+
+    <!-- Navigation buttons -->
+    <button class="nav-btn" (click)="goBackToDetails()" *ngIf="isGeneratedQuiz && !quizSubmitted">
+      ← Back to Details
+    </button>
+    <button class="nav-btn" (click)="goBackToDashboard()">
+      ← Dashboard
+    </button>
   </div>
 
   <div class="result" *ngIf="quizSubmitted">
     <h2>🎯 Your Score: {{score}} / {{qBank.length}}</h2>
+
+    <!-- Post-quiz navigation -->
+    <div class="post-quiz-buttons">
+      <button class="nav-btn" (click)="goBackToDetails()" *ngIf="isGeneratedQuiz">
+        ← Back to Details
+      </button>
+      <button class="nav-btn" (click)="goBackToDashboard()">
+        ← Dashboard
+      </button>
+    </div>
   </div>
 </div>

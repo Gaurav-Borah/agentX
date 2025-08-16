@@ -7,6 +7,15 @@ import { isPlatformBrowser } from '@angular/common';
 
 const API_URL = 'http://localhost:8000/auth';
 
+export interface Question {
+    id: number;
+    question: string;
+    options: string[];
+    answer: string;
+    selected: string;
+    correct: boolean;
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -62,6 +71,20 @@ export class AuthService {
     getUserConversations(): Observable<any> {
         return this.http.get(`${API_URL}/conversations`, { withCredentials: true });
     }
+
+    // Add this method to your AuthService class
+    generateTest(transcript: string): Observable<{ questions: Question[] }> {
+        const url = `${API_URL}/generate_quiz`;
+        const body = { transcript: transcript };
+
+        return this.http.post<{ questions: Question[] }>(url, body, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        });
+    }
+
     postPayments(amount: any): Observable<any> {
         return this.http.post(
             `${API_URL}/create-checkout-session`,
