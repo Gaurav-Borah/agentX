@@ -31,9 +31,6 @@
         <div *ngFor="let item of historyItems; let i = index" class="history-item"
           [class.active]="selectedHistoryItem === i" (click)="selectHistoryItem(i)">
 
-          <!-- URL Display -->
-          <div class="history-url" [title]="item.url">{{ item.url }}</div>
-
           <!-- Transcript Preview -->
           <div class="history-preview">
             {{ item.transcript.length > 80 ? (item.transcript.substring(0, 80) + '...') : item.transcript }}

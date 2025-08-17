@@ -10,6 +10,9 @@ interface HistoryItem {
   id: number;
   url: string;
   transcript: string;
+  summary: string;
+  detailed_note: string;
+  questions: any;   // can refine type if backend returns fixed shape
   date: string;
 }
 
@@ -26,10 +29,13 @@ export class Dashboard {
   selectedTab = 'summariser';
   pastedUrl = '';
 
-  // NEW: transcript related state
-  transcript: any = null;
+  // NEW fields
+  transcript: string | null = null;
   summary: string | null = null;
-  // NEW: error handling
+  detailedNote: string | null = null;
+  questions: any = null;
+
+  // Error handling
   summaryError: string | null = null;
   transcriptError: string | null = null;
   transcriptLoading = false;
@@ -46,7 +52,6 @@ export class Dashboard {
       next: (u) => {
         this.user = u;
         this.cdr.markForCheck();
-        // If history wasn't loaded yet due to auth issues, try again
         if (this.historyItems.length === 0 && !this.historyLoading && !this.historyError) {
           this.loadUserHistory();
         }
@@ -54,6 +59,7 @@ export class Dashboard {
       error: () => this.router.navigate(['/login'])
     });
   }
+
   loadUserHistory(): void {
     this.historyLoading = true;
     this.historyError = null;
@@ -63,12 +69,11 @@ export class Dashboard {
       .subscribe({
         next: (response) => {
           console.log('User conversations loaded:', response);
-          this.historyItems = response.conversations || [];;
+          this.historyItems = response.conversations || [];
         },
         error: (err) => {
           console.error('Failed to load user history:', err);
           this.historyError = 'Failed to load conversation history';
-          // Keep empty array if loading fails
           this.historyItems = [];
         }
       });
@@ -77,6 +82,7 @@ export class Dashboard {
   logout() {
     this.auth.logout().subscribe(() => this.router.navigate(['/login']));
   }
+
   generateSummary() {
     if (!this.pastedUrl) {
       this.transcriptError = 'Please paste a URL first.';
@@ -87,22 +93,29 @@ export class Dashboard {
     this.transcriptError = null;
     this.transcript = null;
     this.summary = null;
+    this.detailedNote = null;
+    this.questions = null;
 
     this.auth.getTranscript(this.pastedUrl)
       .pipe(finalize(() => {
-        this.transcriptLoading = false;   // <-- will ALWAYS run (success or error)
-        // this.cdr.markForCheck();        // if you're on OnPush CD, uncomment after injecting ChangeDetectorRef
+        this.transcriptLoading = false;
       }))
       .subscribe({
         next: (res) => {
           console.log('get_transcript success:', res);
           this.transcript = res.transcript;
           this.summary = res.summary;
+          this.detailedNote = res.detailed_note;
+          this.questions = res.questions;
+
           this.loadUserHistory();
+
           this.router.navigate(['/details'], {
             state: {
               transcript: this.transcript,
               summary: this.summary,
+              detailedNote: this.detailedNote,
+              questions: this.questions,
               url: this.pastedUrl
             }
           });
@@ -113,46 +126,50 @@ export class Dashboard {
         }
       });
   }
-  get prettyTranscript(): string {
-    return JSON.stringify(this.transcript, null, 2);
-  }
 
   selectHistoryItem(index: number): void {
     this.selectedHistoryItem = index;
-    // Load the transcript and URL from selected history item
     const selectedItem = this.historyItems[index];
     if (selectedItem) {
       this.transcript = selectedItem.transcript;
+      this.summary = selectedItem.summary;
+      this.detailedNote = selectedItem.detailed_note;
+      this.questions = selectedItem.questions;
       this.pastedUrl = selectedItem.url;
+
+      this.router.navigate(['/details'], {
+        state: {
+          transcript: this.transcript,
+          summary: this.summary,
+          detailedNote: this.detailedNote,
+          questions: this.questions,
+          url: this.pastedUrl
+        }
+      });
     }
-    this.router.navigate(['/details'], {
-      state: {
-        transcript: selectedItem.transcript,
-        url: selectedItem.url
-      }
-    });
   }
 
   startNewChat(): void {
     this.selectedHistoryItem = null;
     this.transcript = null;
+    this.summary = null;
+    this.detailedNote = null;
+    this.questions = null;
     this.transcriptError = null;
     this.pastedUrl = '';
   }
 
   getCurrentSummary(): string {
     if (this.selectedHistoryItem !== null && this.historyItems[this.selectedHistoryItem]) {
-      return this.historyItems[this.selectedHistoryItem].transcript;
+      return this.historyItems[this.selectedHistoryItem].summary;
     }
     return '';
   }
 
-  // Helper method to refresh history (useful after creating new conversations)
   refreshHistory(): void {
     this.loadUserHistory();
   }
 
-  // Helper method to get relative time formatting
   getRelativeTime(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
@@ -166,4 +183,3 @@ export class Dashboard {
     return date.toLocaleDateString();
   }
 }
-
